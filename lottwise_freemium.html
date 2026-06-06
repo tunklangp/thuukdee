@@ -189,6 +189,17 @@ body{background:#0F0E1A;font-family:'Kanit',sans-serif;color:#E2E0F0;min-height:
 }
 
 </style>
+
+  <!-- PWA -->
+  <meta name="application-name" content="เลขเด็ดงวดนี้">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="เลขเด็ดงวดนี้">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0F0E1A">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
 </head>
 <body>
 
@@ -200,6 +211,9 @@ body{background:#0F0E1A;font-family:'Kanit',sans-serif;color:#E2E0F0;min-height:
     <div class="sub">✨ มั่งมีศรีสุข โชคดีทุกงวด</div>
   </div>
   <div class="nav-badge">งวด 1 ก.ค. 68</div>
+  <button id="installBtn" onclick="installApp()" style="display:none;align-items:center;gap:5px;background:linear-gradient(135deg,#7C3AED,#5B21B6);border:none;border-radius:20px;padding:5px 12px;color:#fff;font-family:'Kanit',sans-serif;font-size:11px;font-weight:600;cursor:pointer;margin-left:6px;flex-shrink:0">
+    📲 ติดตั้ง
+  </button>
 </div>
 
   
@@ -680,5 +694,42 @@ function doSpin() {
 function openModal() { document.getElementById('modal').classList.add('open'); }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 </script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js')
+      .then(function(reg) { console.log('SW registered'); })
+      .catch(function(err) { console.log('SW error:', err); });
+  });
+}
+
+// PWA Install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  // แสดงปุ่ม install
+  const btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'flex';
+});
+
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(result) {
+      deferredPrompt = null;
+      const btn = document.getElementById('installBtn');
+      if (btn) btn.style.display = 'none';
+    });
+  }
+}
+
+window.addEventListener('appinstalled', function() {
+  const btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'none';
+});
+</script>
+
 </body>
 </html>
