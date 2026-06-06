@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LottoWise AI — วิเคราะห์หวยด้วย AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#F8F7FF;font-family:'Kanit',sans-serif;color:#1E1B4B}
+.topbar{background:#fff;border-bottom:1px solid #E0E7FF;padding:.8rem 1.2rem;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
+.logo-icon{width:46px;height:46px;background:linear-gradient(135deg,#FFD700,#FF8C00);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:0 2px 8px rgba(255,165,0,.3)}
+.brand{font-size:18px;font-weight:700;color:#1E1B4B}.brand span{color:#D97706}
+.sub{font-size:10px;color:#7C3AED}
+.nav-badge{margin-left:auto;background:#FEF3C7;color:#92400E;font-size:10px;padding:3px 10px;border-radius:20px;font-weight:600;border:1px solid #FDE68A}
+.adsense-slot{background:#fff;border:1px dashed #C7D2FE;border-radius:10px;margin:.8rem 1.2rem;padding:.6rem 1rem;display:flex;align-items:center;justify-content:space-between;min-height:60px}
+.ads-label{font-size:10px;color:#A5B4FC}
+.ads-content{font-size:11px;color:#6B7280}
+.ads-mock{background:#EEF2FF;border-radius:6px;padding:4px 10px;font-size:11px;color:#4338CA}
+.hero{background:linear-gradient(160deg,#EEF2FF 0%,#FFF7ED 100%);padding:1.2rem;border-bottom:1px solid #E0E7FF}
+.deity-card{background:#fff;border-radius:16px;border:1px solid #FDE68A;padding:1rem;display:flex;gap:12px;align-items:center;margin-bottom:1rem;box-shadow:0 2px 12px rgba(255,165,0,.12)}
+.deity-figure{width:64px;height:64px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:42px;background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-radius:50%;border:2px solid #F59E0B}
+.deity-title{font-size:14px;font-weight:600;color:#92400E}
+.deity-desc{font-size:12px;color:#78716C;line-height:1.5;margin-top:3px}
+.incense-btn{background:linear-gradient(135deg,#F59E0B,#D97706);border:none;border-radius:10px;padding:8px 16px;color:#fff;font-family:'Kanit',sans-serif;font-size:13px;cursor:pointer;margin-top:8px;transition:all .2s}
+.incense-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(217,119,6,.3)}
+.incense-count{font-size:11px;color:#92400E;margin-top:4px}
+.hero-title{font-size:16px;font-weight:600;color:#1E1B4B;margin-bottom:.4rem}
+.hero-sub{font-size:12px;color:#6B7280;margin-bottom:1rem}
+.dream-box{background:#fff;border:2px solid #C7D2FE;border-radius:14px;padding:.9rem;display:flex;gap:10px;align-items:flex-start;box-shadow:0 2px 8px rgba(99,102,241,.08)}
+.dream-box:focus-within{border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,.12)}
+.dream-input{flex:1;background:transparent;border:none;outline:none;color:#1E1B4B;font-family:'Kanit',sans-serif;font-size:13px;resize:none;min-height:48px}
+.dream-input::placeholder{color:#9CA3AF}
+.dream-btn{background:#7C3AED;border:none;border-radius:10px;padding:10px 16px;color:#fff;font-family:'Kanit',sans-serif;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .2s}
+.dream-btn:hover{background:#6D28D9}
+.ai-result{margin-top:.8rem;background:#F0FDF4;border:1px solid #86EFAC;border-radius:12px;padding:1rem;display:none}
+.ai-result.show{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.thinking{display:flex;align-items:center;gap:8px;color:#16A34A;font-size:13px}
+.dot{width:7px;height:7px;background:#16A34A;border-radius:50%;animation:bounce 1s infinite}
+.dot:nth-child(2){animation-delay:.18s}.dot:nth-child(3){animation-delay:.36s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.num-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:.8rem}
+.num-card{background:#fff;border:1px solid #E0E7FF;border-radius:10px;padding:.7rem;text-align:center}
+.num-label{font-size:11px;color:#7C3AED;font-weight:500;margin-bottom:4px}
+.num-val{font-size:26px;font-weight:700;color:#1E1B4B}
+.num-conf{font-size:11px;color:#16A34A;margin-top:2px}
+.section{padding:1rem 1.2rem}
+.sec-title{font-size:15px;font-weight:600;color:#1E1B4B;margin-bottom:.8rem;display:flex;align-items:center;gap:8px;border-bottom:2px solid #E0E7FF;padding-bottom:.5rem}
+.pill{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600}
+.pill-gold{background:#FEF3C7;color:#92400E;border:1px solid #FDE68A}
+.pill-green{background:#DCFCE7;color:#166534;border:1px solid #86EFAC}
+.pill-purple{background:#EDE9FE;color:#5B21B6;border:1px solid #C4B5FD}
+.news-card{background:#fff;border:1px solid #E0E7FF;border-radius:12px;padding:.85rem;margin-bottom:.7rem;display:flex;gap:10px;align-items:flex-start;cursor:pointer;transition:all .2s}
+.news-card:hover{box-shadow:0 4px 16px rgba(99,102,241,.12);border-color:#A5B4FC;transform:translateY(-1px)}
+.news-src{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.news-body{flex:1;min-width:0}
+.news-title{font-size:13px;font-weight:500;color:#1E1B4B;line-height:1.4}
+.news-meta{display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap}
+.news-time{font-size:11px;color:#9CA3AF}
+.news-tag{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500}
+.hot-tag{background:#FEF2F2;color:#DC2626;border:1px solid #FCA5A5}
+.trend-tag{background:#EEF2FF;color:#4338CA;border:1px solid #A5B4FC}
+.social-tag{background:#F0FDF4;color:#15803D;border:1px solid #86EFAC}
+.news-num{font-size:14px;font-weight:700;color:#D97706;background:#FEF3C7;padding:3px 10px;border-radius:8px;white-space:nowrap;border:1px solid #FDE68A}
+.stat-row{display:flex;align-items:center;gap:8px;margin-bottom:.55rem}
+.stat-label{font-size:12px;color:#374151;width:80px;flex-shrink:0;font-weight:500}
+.bar-wrap{flex:1;background:#F3F4F6;border-radius:20px;height:9px;overflow:hidden}
+.bar{height:9px;border-radius:20px}
+.bar-gold{background:linear-gradient(90deg,#F59E0B,#D97706)}
+.bar-purple{background:linear-gradient(90deg,#7C3AED,#5B21B6)}
+.tag-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.8rem}
+.t-hot{background:#FEF3C7;color:#92400E;border:1px solid #FDE68A;font-size:13px;font-weight:600;padding:5px 12px;border-radius:8px}
+.t-cold{background:#F9FAFB;color:#6B7280;border:1px solid #E5E7EB;font-size:13px;padding:5px 12px;border-radius:8px}
+.src-card{background:#fff;border:1px solid #E0E7FF;border-radius:12px;padding:.85rem;margin-bottom:.6rem;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s}
+.src-card:hover{border-color:#A5B4FC;box-shadow:0 2px 12px rgba(99,102,241,.1)}
+.src-card.top{border-color:#FDE68A;background:#FFFBEB}
+.src-av{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.src-nm{font-size:13px;font-weight:600;color:#1E1B4B}
+.src-mt{font-size:11px;color:#9CA3AF;margin-top:2px}
+.stars{display:flex;gap:1px;margin-top:3px}
+.s{font-size:12px;color:#F59E0B}.se{font-size:12px;color:#D1D5DB}
+.acc{font-size:14px;font-weight:700;color:#059669}
+.fab{position:fixed;bottom:1.5rem;right:1.2rem;background:linear-gradient(135deg,#F59E0B,#D97706);border:none;border-radius:16px;padding:12px 18px;display:flex;align-items:center;gap:8px;color:#fff;font-family:'Kanit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(217,119,6,.4);z-index:100;transition:all .2s}
+.fab:hover{transform:translateY(-2px)}
+.modal-bg{position:fixed;inset:0;background:rgba(30,27,75,.5);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:20px 20px 0 0;padding:1.5rem;width:100%;max-width:500px;transform:translateY(100%);transition:transform .3s}
+.modal-bg.open .modal{transform:translateY(0)}
+.big-num{font-size:52px;font-weight:700;color:#1E1B4B;letter-spacing:10px;text-align:center;padding:1rem 0}
+.spin-btn{width:100%;background:#7C3AED;border:none;border-radius:12px;padding:14px;color:#fff;font-family:'Kanit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;margin-top:1rem}
+.spin-btn:hover{background:#6D28D9}
+.close-btn{width:100%;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:12px;padding:12px;color:#6B7280;font-family:'Kanit',sans-serif;font-size:13px;cursor:pointer;margin-top:.5rem}
+.live-dot{width:8px;height:8px;background:#DC2626;border-radius:50%;display:inline-block;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.divider{height:1px;background:#F3F4F6;margin:0 1.2rem}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo-icon">🪙</div>
+  <div>
+    <div class="brand">Lotto<span>Wise</span> AI</div>
+    <div class="sub">✨ มั่งมีศรีสุข โชคดีทุกงวด</div>
+  </div>
+  <div class="nav-badge">งวด 1 ก.ค. 68</div>
+</div>
+
+<!-- AdSense Top -->
+<div class="adsense-slot">
+  <div>
+    <div class="ads-label">Advertisement</div>
+    <div class="ads-content">แทนที่ด้วย Google AdSense code ของคุณ</div>
+  </div>
+  <div class="ads-mock">728×90 Leaderboard</div>
+</div>
+<!-- AdSense จริง: <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+
+<div class="hero">
+  <div class="deity-card">
+    <div class="deity-figure">🐉</div>
+    <div style="flex:1">
+      <div class="deity-title">⛩️ ไฉ่สิ้งเอี๊ย — เทพเจ้าแห่งโชคลาภ</div>
+      <div class="deity-desc">เทพเจ้าแห่งความมั่งคั่งของจีน ผู้ประทานโชคลาภและทรัพย์สมบัติแก่ผู้เคารพบูชา</div>
+      <button class="incense-btn" onclick="burnIncense(this)">🕯️ ไหว้ขอพร</button>
+      <div class="incense-count" id="incenseCount">🙏 มีผู้ขอพรวันนี้ 1,247 คน</div>
+    </div>
+  </div>
+  <div class="hero-title">🔮 วิเคราะห์เลขเด็ดจากความฝัน</div>
+  <div class="hero-sub">เล่าความฝันของคุณ แล้ว AI จะแปลความหมายและหาเลขนำโชค</div>
+  <div class="dream-box">
+    <textarea class="dream-input" id="dreamInput" placeholder="เช่น ฝันว่าเห็นงูเหลือมตัวใหญ่สีทองมาเลื้อยพันขา..."></textarea>
+    <button class="dream-btn" onclick="analyzeDream()">วิเคราะห์ ✨</button>
+  </div>
+  <div class="ai-result" id="aiResult">
+    <div class="thinking" id="thinkDots">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <span style="color:#16A34A;font-size:13px">AI กำลังวิเคราะห์...</span>
+    </div>
+    <div id="resultContent" style="display:none">
+      <div style="font-size:13px;color:#374151;line-height:1.7;margin-bottom:.7rem" id="dreamInterp"></div>
+      <div style="font-size:12px;color:#D97706;font-weight:600;margin-bottom:.4rem">⚡ เลขนำโชคที่คำนวณได้</div>
+      <div class="num-grid" id="numGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="sec-title">
+    <span class="live-dot"></span> ข่าวสาร & กระแส Social
+    <span class="pill pill-gold">Realtime Feed</span>
+  </div>
+  <div class="news-card">
+    <div class="news-src" style="background:#FEF2F2">📰</div>
+    <div class="news-body">
+      <div class="news-title">เลขเด็ดงวดนี้! แม่น้ำหนึ่งชี้เลขเด่น เตือนห้ามพลาดงวด 1 ก.ค. นี้</div>
+      <div class="news-meta">
+        <span class="news-time">8 นาทีที่แล้ว</span>
+        <span class="news-tag hot-tag">🔥 ไวรัล</span>
+        <span class="news-tag trend-tag">แม่น้ำหนึ่ง</span>
+      </div>
+    </div>
+    <div class="news-num">85</div>
+  </div>
+  <div class="news-card">
+    <div class="news-src" style="background:#EFF6FF">🐦</div>
+    <div class="news-body">
+      <div class="news-title">Twitter/X กำลัง Trend: #เลขเด็ด68 มีคนแชร์เลข 39 กว่า 5 แสนครั้งในคืนนี้</div>
+      <div class="news-meta">
+        <span class="news-time">22 นาทีที่แล้ว</span>
+        <span class="news-tag social-tag">𝕏 Twitter</span>
+        <span class="news-tag trend-tag">Trending</span>
+      </div>
+    </div>
+    <div class="news-num">39</div>
+  </div>
+  <div class="news-card">
+    <div class="news-src" style="background:#F0FDF4">📱</div>
+    <div class="news-body">
+      <div class="news-title">Facebook กลุ่มหวยยักษ์: สมาชิกแห่บอกต่อเลข 17 จากแม่ชีวัดดัง ยอดไลก์ทะลุแสน</div>
+      <div class="news-meta">
+        <span class="news-time">45 นาทีที่แล้ว</span>
+        <span class="news-tag social-tag">Facebook</span>
+        <span class="news-tag hot-tag">🔥 กระแสแรง</span>
+      </div>
+    </div>
+    <div class="news-num">17</div>
+  </div>
+  <div class="news-card">
+    <div class="news-src" style="background:#FFF7ED">🗞️</div>
+    <div class="news-body">
+      <div class="news-title">ไทยรัฐ: เปิดสถิติเลขที่ออกบ่อยช่วงฤดูร้อน ผู้เชี่ยวชาญชี้เลขดาวเด่นประจำงวด</div>
+      <div class="news-meta">
+        <span class="news-time">1 ชั่วโมงที่แล้ว</span>
+        <span class="news-tag trend-tag">ไทยรัฐ</span>
+      </div>
+    </div>
+    <div class="news-num">59</div>
+  </div>
+  <div class="news-card">
+    <div class="news-src" style="background:#EDE9FE">🌿</div>
+    <div class="news-body">
+      <div class="news-title">คำล่ำลือ! นักบวชวัดคำชะโนดเผยนิมิตเห็นตัวเลขในความฝัน ชาวบ้านแห่ขอเลข</div>
+      <div class="news-meta">
+        <span class="news-time">2 ชั่วโมงที่แล้ว</span>
+        <span class="news-tag trend-tag">คำชะโนด</span>
+        <span class="news-tag social-tag">Viral</span>
+      </div>
+    </div>
+    <div class="news-num">93</div>
+  </div>
+  <div class="news-card">
+    <div class="news-src" style="background:#FEF2F2">🍺</div>
+    <div class="news-body">
+      <div class="news-title">เจ๊ฟองเบียร์ Live สด! เปิดเลขเด็ดงวดนี้บน TikTok คนดูกว่า 2 แสนคน</div>
+      <div class="news-meta">
+        <span class="news-time">3 ชั่วโมงที่แล้ว</span>
+        <span class="news-tag hot-tag">TikTok Live</span>
+        <span class="news-tag trend-tag">เจ๊ฟองเบียร์</span>
+      </div>
+    </div>
+    <div class="news-num">47</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="sec-title">📊 สถิติย้อนหลัง 5 ปี <span class="pill pill-purple">อัปเดต มิ.ย. 68</span></div>
+  <div style="font-size:12px;color:#D97706;font-weight:600;margin-bottom:.6rem">🔥 เลขออกบ่อย (รางวัลที่ 1)</div>
+  <div class="stat-row"><div class="stat-label">เลข 9</div><div class="bar-wrap"><div class="bar bar-gold" style="width:88%"></div></div><div style="font-size:12px;font-weight:600;color:#1E1B4B;min-width:30px;text-align:right">88%</div></div>
+  <div class="stat-row"><div class="stat-label">เลข 5</div><div class="bar-wrap"><div class="bar bar-gold" style="width:82%"></div></div><div style="font-size:12px;font-weight:600;color:#1E1B4B;min-width:30px;text-align:right">82%</div></div>
+  <div class="stat-row"><div class="stat-label">เลข 3</div><div class="bar-wrap"><div class="bar bar-purple" style="width:74%"></div></div><div style="font-size:12px;font-weight:600;color:#1E1B4B;min-width:30px;text-align:right">74%</div></div>
+  <div class="stat-row"><div class="stat-label">เลข 7</div><div class="bar-wrap"><div class="bar bar-purple" style="width:68%"></div></div><div style="font-size:12px;font-weight:600;color:#1E1B4B;min-width:30px;text-align:right">68%</div></div>
+  <div style="font-size:12px;color:#6B7280;font-weight:600;margin:.7rem 0 .5rem">❄️ เลขดับ (ไม่ค่อยออก)</div>
+  <div class="tag-wrap">
+    <span class="t-cold">04</span><span class="t-cold">22</span><span class="t-cold">37</span><span class="t-cold">48</span><span class="t-cold">66</span>
+  </div>
+  <div style="font-size:12px;color:#D97706;font-weight:600;margin-bottom:.5rem">💎 เลขร้อนงวดนี้</div>
+  <div class="tag-wrap">
+    <span class="t-hot">59</span><span class="t-hot">85</span><span class="t-hot">39</span><span class="t-hot">17</span><span class="t-hot">93</span>
+  </div>
+  <div style="position:relative;width:100%;height:160px;margin-bottom:.5rem">
+    <canvas id="histChart"></canvas>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="sec-title">🏆 แหล่งเลขเด็ดชื่อดัง <span class="pill pill-gold">AI จัดอันดับ</span></div>
+  <div class="src-card top">
+    <div class="src-av" style="background:#FEF3C7">🌊</div>
+    <div style="flex:1"><div class="src-nm">แม่น้ำหนึ่ง</div><div class="src-mt">อัปเดต: 3 มิ.ย. 68</div>
+    <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span style="font-size:11px;color:#92400E;margin-left:5px">4.8/5</span></div></div>
+    <div style="text-align:right"><div class="acc">87%</div><div style="font-size:10px;color:#9CA3AF">ความแม่น</div><div style="font-size:10px;background:#FEF3C7;color:#92400E;padding:2px 7px;border-radius:20px;margin-top:3px;font-weight:700;border:1px solid #FDE68A">🔥 TOP</div></div>
+  </div>
+  <div class="src-card top">
+    <div class="src-av" style="background:#EDE9FE">🍺</div>
+    <div style="flex:1"><div class="src-nm">เจ๊ฟองเบียร์</div><div class="src-mt">อัปเดต: 4 มิ.ย. 68</div>
+    <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="se">★</span><span style="font-size:11px;color:#92400E;margin-left:5px">4.3/5</span></div></div>
+    <div style="text-align:right"><div class="acc">79%</div><div style="font-size:10px;color:#9CA3AF">ความแม่น</div></div>
+  </div>
+  <div class="src-card">
+    <div class="src-av" style="background:#FEF2F2">📰</div>
+    <div style="flex:1"><div class="src-nm">เลขเดลินิวส์</div><div class="src-mt">อัปเดต: 5 มิ.ย. 68</div>
+    <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="se">★</span><span style="font-size:11px;color:#92400E;margin-left:5px">4.1/5</span></div></div>
+    <div style="text-align:right"><div class="acc" style="color:#D97706">73%</div><div style="font-size:10px;color:#9CA3AF">ความแม่น</div></div>
+  </div>
+  <div class="src-card">
+    <div class="src-av" style="background:#F0FDF4">🌿</div>
+    <div style="flex:1"><div class="src-nm">คำชะโนด</div><div class="src-mt">อัปเดต: 2 มิ.ย. 68</div>
+    <div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="se">★</span><span style="font-size:11px;color:#92400E;margin-left:5px">3.9/5</span></div></div>
+    <div style="text-align:right"><div class="acc" style="color:#D97706">68%</div><div style="font-size:10px;color:#9CA3AF">ความแม่น</div></div>
+  </div>
+</div>
+
+<!-- AdSense Bottom -->
+<div class="adsense-slot" style="margin-bottom:5rem">
+  <div>
+    <div class="ads-label">Advertisement</div>
+    <div class="ads-content">แทนที่ด้วย Google AdSense code ของคุณ</div>
+  </div>
+  <div class="ads-mock">320×100 Mobile Banner</div>
+</div>
+
+<button class="fab" onclick="openModal()">🎰 สุ่มเลขนำโชค</button>
+
+<div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div style="font-size:15px;font-weight:600;color:#1E1B4B;margin-bottom:.3rem">🎰 สุ่มเลขนำโชค AI</div>
+    <div style="font-size:12px;color:#9CA3AF;margin-bottom:.2rem">คำนวณจากสถิติ + ดาว + ฤกษ์งวด</div>
+    <div class="big-num" id="bigNum">—</div>
+    <div style="font-size:12px;color:#9CA3AF;text-align:center;margin-bottom:.5rem" id="spinSub">กด "สุ่มเลข" เพื่อเริ่มต้น</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="extraNums"></div>
+    <button class="spin-btn" onclick="doSpin()">🎲 สุ่มเลขใหม่</button>
+    <button class="close-btn" onclick="closeModal()">ปิด</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const dreamDB={
+  'งู':{i:'🔮 งูในฝันหมายถึงโชคลาภที่กำลังจะมาถึง งูใหญ่สีทองบ่งบอกถึงความมั่งคั่งและการได้รับทรัพย์สมบัติอย่างไม่คาดฝัน',n:[{l:'เลขเด่น',v:'89',c:92,t:'2 ตัวบน'},{l:'เลขรอง',v:'359',c:78,t:'3 ตัวบน'},{l:'เลขหัว',v:'8',c:85,t:'ตัวเดียว'},{l:'เลขท้าย',v:'5',c:71,t:'ตัวเดียว'}]},
+  'น้ำ':{i:'🔮 น้ำในฝันเป็นสัญลักษณ์ของความไหลลื่นและความอุดมสมบูรณ์ หากน้ำใสและไหลเชี่ยวหมายถึงโชคดีด้านการเงิน',n:[{l:'เลขเด่น',v:'16',c:88,t:'2 ตัวบน'},{l:'เลขรอง',v:'610',c:74,t:'3 ตัวบน'},{l:'เลขหัว',v:'6',c:81,t:'ตัวเดียว'},{l:'เลขท้าย',v:'1',c:68,t:'ตัวเดียว'}]},
+  'ปลา':{i:'🔮 ปลาในฝันเป็นมงคลยิ่งนัก โดยเฉพาะปลาทองหรือปลาขนาดใหญ่ บ่งบอกถึงโชคลาภที่กำลังจะเข้ามา',n:[{l:'เลขเด่น',v:'47',c:90,t:'2 ตัวบน'},{l:'เลขรอง',v:'479',c:76,t:'3 ตัวบน'},{l:'เลขหัว',v:'4',c:83,t:'ตัวเดียว'},{l:'เลขท้าย',v:'7',c:72,t:'ตัวเดียว'}]},
+  'พระ':{i:'🔮 ฝันเห็นพระในฝันเป็นสัญลักษณ์ที่ดีมาก บ่งบอกถึงความคุ้มครองและพรที่กำลังจะได้รับ',n:[{l:'เลขเด่น',v:'33',c:86,t:'2 ตัวบน'},{l:'เลขรอง',v:'337',c:72,t:'3 ตัวบน'},{l:'เลขหัว',v:'3',c:79,t:'ตัวเดียว'},{l:'เลขท้าย',v:'9',c:65,t:'ตัวเดียว'}]},
+  'default':{i:'🔮 จากการวิเคราะห์ความฝันของคุณด้วย AI พบรูปแบบพิเศษที่บ่งชี้ถึงโอกาสและโชคลาภที่กำลังจะมาถึง',n:[{l:'เลขเด่น',v:'85',c:82,t:'2 ตัวบน'},{l:'เลขรอง',v:'285',c:69,t:'3 ตัวบน'},{l:'เลขหัว',v:'8',c:77,t:'ตัวเดียว'},{l:'เลขท้าย',v:'5',c:65,t:'ตัวเดียว'}]}
+};
+
+let incense=1247;
+function burnIncense(btn){
+  incense+=Math.floor(Math.random()*3)+1;
+  document.getElementById('incenseCount').textContent='🙏 มีผู้ขอพรวันนี้ '+incense.toLocaleString()+' คน';
+  btn.textContent='🙏 ขอพรแล้ว ขอให้โชคดี!';
+  setTimeout(()=>{btn.textContent='🕯️ ไหว้ขอพรอีกครั้ง';},2000);
+}
+
+function analyzeDream(){
+  const v=document.getElementById('dreamInput').value.trim();
+  if(!v)return;
+  const r=document.getElementById('aiResult'),t=document.getElementById('thinkDots'),c=document.getElementById('resultContent');
+  r.style.display='block';r.classList.add('show');t.style.display='flex';c.style.display='none';
+  let key='default';
+  for(const k of ['งู','น้ำ','ปลา','พระ']){if(v.includes(k)){key=k;break;}}
+  setTimeout(()=>{
+    t.style.display='none';c.style.display='block';
+    const d=dreamDB[key];
+    document.getElementById('dreamInterp').textContent=d.i;
+    const g=document.getElementById('numGrid');g.innerHTML='';
+    d.n.forEach(n=>{g.innerHTML+=`<div class="num-card"><div class="num-label">${n.l} (${n.t})</div><div class="num-val">${n.v}</div><div class="num-conf">ความมั่นใจ ${n.c}%</div></div>`;});
+  },2000);
+}
+document.getElementById('dreamInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();analyzeDream();}});
+
+new Chart(document.getElementById('histChart'),{
+  type:'bar',
+  data:{labels:['09','17','25','39','47','55','63','71','85','93'],datasets:[{label:'ความถี่',data:[18,15,22,19,12,25,14,16,21,17],backgroundColor:['#F59E0B','#7C3AED','#F59E0B','#7C3AED','#7C3AED','#10B981','#7C3AED','#7C3AED','#F59E0B','#7C3AED'],borderRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6B7280',font:{family:'Kanit',size:10}},grid:{color:'rgba(0,0,0,.05)'}},y:{ticks:{color:'#6B7280',font:{family:'Kanit',size:10}},grid:{color:'rgba(0,0,0,.05)'}}}}
+});
+
+const pools=['09','17','25','39','47','55','63','71','85','93','28','36','44','52','69'];
+const p3=['359','479','285','610','893','147','526','731'];
+function doSpin(){
+  const n=document.getElementById('bigNum'),s=document.getElementById('spinSub'),ex=document.getElementById('extraNums');
+  let c=0;const iv=setInterval(()=>{n.textContent=pools[Math.floor(Math.random()*pools.length)];c++;
+    if(c>18){clearInterval(iv);
+      const f=pools[Math.floor(Math.random()*pools.length)],f3=p3[Math.floor(Math.random()*p3.length)],f2=pools[Math.floor(Math.random()*pools.length)];
+      n.textContent=f;s.textContent='ความมั่นใจ '+Math.floor(72+Math.random()*18).toFixed(0)+'% | คำนวณจากสถิติ 5 ปี';
+      ex.innerHTML=`<div class="num-card"><div class="num-label">3 ตัวบน</div><div class="num-val" style="color:#7C3AED">${f3}</div></div><div class="num-card"><div class="num-label">2 ตัวล่าง</div><div class="num-val" style="color:#059669">${f2}</div></div>`;
+    }
+  },70);
+}
+function openModal(){document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+</script>
+</body>
+</html>
