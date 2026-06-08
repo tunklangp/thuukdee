@@ -1621,11 +1621,10 @@ window.addEventListener('load',function(){
     <!-- PromptPay section -->
     <div style="background:#f0f9f4;border:1.5px solid #8ecfaa;border-radius:12px;padding:14px;margin-bottom:14px;text-align:center;">
       <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:8px;">💳 ชำระผ่าน PromptPay</div>
-      <!-- QR placeholder -->
-      <div style="width:130px;height:130px;background:#fff;border:2px solid #ccc;border-radius:10px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;">
-        <div style="text-align:center;font-size:10px;color:var(--muted);">QR PromptPay<br>฿59/เดือน<br><strong style="font-size:12px;color:var(--text);">093-xxx-xxxx</strong></div>
-      </div>
-      <div style="font-size:10px;color:var(--muted);">โอนแล้วส่งสลิปมาที่<br><strong style="color:var(--text);">Line: @pt789</strong></div>
+      <!-- QR PromptPay -->
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAAAklEQVR4AewaftIAAAseSURBVO3BgZEcyY5EwVjYaBFCQH8xIETIwVsFsu5bktUz4D73f379SwCwQAkAligBwBIlAFiiBABLlABgiRIALFECgCVKALBECQCWKAHAEiUAWKIEAEuUAGCJEgAs8aXfYLf+Fsnoid26kYxu2a2TZPRfYbdOktEb7NZJMrplt06S0RO79bdIRjdKALBECQCWKAHAEiUAWKIEAEuUAGCJL70kGf00duunsVs37NatZPQGu3WSjN5gt06S0Rvs1k+TjH4au/WnlQBgiRIALFECgCVKALBECQCWKAHAEiUAWOJL38RuvSEZvSEZ3bBbT5LRid26lYxu2K0nyegkGZ3YrZNk9Aa79YZkdMtufZrdekMy+rQSACxRAoAlSgCwRAkAligBwBIlAFjiS/if2K2TZLSJ3bplt24koxO79SQZ3bBbt5LRid26lYxwrwQAS5QAYIkSACxRAoAlSgCwRAkAlvgS/ifJ6MRufVoyupWMTuzWk2R0w26dJKNbduskGT2xWzeS0RO7hXeUAGCJEgAsUQKAJUoAsEQJAJYoAcASJQBY4kvfJBn9LZLRp9mtW8nolt26kYxO7NaTZHTDbr3Bbj1JRid26yQZvSEZ/S1KALBECQCWKAHAEiUAWKIEAEuUAGCJL73Ebv1N7NZJMjqxW0+S0Y1k9MRuvSEZnditnyQZPbFbfwu79V9QAoAlSgCwRAkAligBwBIlAFiiBABLfOk3JCNIduskGT2xW29IRp+WjE7s1k+TjG4ko1vJ6FYy+q8rAcASJQBYogQAS5QAYIkSACxRAoAlSgCwxJd+g906SUZP7NaNZPTEbr0hGZ3YrRO79Qa79SQZ3UhGt+zWSTL6aezWSTI6sVtPktGJ3TpJRk/s1kkyumW3TpLRid26lYxulABgiRIALFECgCVKALBECQCWKAHAEl/6JsnoxG69IRm9IRndslsnyejEbt2yWyfJ6NPs1pNk9JMkoyd26yQZndit75CMbiSjTysBwBIlAFiiBABLlABgiRIALFECgCW+9BuS0S27dZKMTuzWk2R0YrdOktETu3UjGf00yejEbt1KRid265bdumG33mC3niSjE7t1Kxm9wW69IRn9aSUAWKIEAEuUAGCJEgAsUQKAJUoAsEQJAJb459e/9AK79YZk9NPYrTcko0+zW0+S0Z9mt54koxO7dZKMbtmtk2R0y27dSkafZrfekIxulABgiRIALFECgCVKALBECQCWKAHAEl/6DXbr0+zWk2R0YrdOktF3SEYnduskGd2yWyfJ6JbdupGMbiWjn8ZunSSjW3brJBm9IRndslt/WgkAligBwBIlAFiiBABLlABgiRIALPHPr3/pkt16QzI6sVu3ktGn2a3vkIxO7NZJMnpit06S0Q279YZk9Aa79SQZ3bBbT5LRG+zWSTL6SUoAsEQJAJYoAcASJQBYogQAS5QAYIkSACzxpd+QjD4tGd2yW7eS0YndekMy+jS79SQZ3bBbJ8noid06SUYndutWMnqD3XqD3TpJRk+S0YndOklGn1YCgCVKALBECQCWKAHAEiUAWKIEAEt86ZvYrZNkdGK3biWjW3brJBmd2K0nyejEbt1KRifJaJNkdCMZPbFbb7BbJ8noDcnolt06SUa37NZJMrpRAoAlSgCwRAkAligBwBIlAFiiBABL/PPrX3qB3XqSjD7Nbp0ko1t26yQZ3bJbt5LRG+zWSTL6NLt1Kxmd2K1byejEbp0koyd26yQZfZrdepKM/rQSACxRAoAlSgCwRAkAligBwBIlAFiiBABLfOmb2K0byeiJ3TpJRid260kyOklGt+zW38Ju3UhGb0hGT+zWSTK6Zbf+FnbrJBl9WgkAligBwBIlAFiiBABLlABgiRIALPGl32C3TpLRE7t1w249SUYnduuW3drEbp0ko09LRid26w126zsko03s1hvs1kkyulECgCVKALBECQCWKAHAEiUAWKIEAEt86TckoxO79YZk9MRunSSjN9itk2T0HezWid16QzL6tGR0y27dsFvfIRndsFtPktENu/UkGf1pJQBYogQAS5QAYIkSACxRAoAlSgCwxJd+g906SUbfIRmd2K2TZHQrGd2yWyfJ6MRuPUlGJ3brJBndslufZrd+mmR0Yrd+Grt1Ixl9WgkAligBwBIlAFiiBABLlABgiRIALFECgCX++fUvXbJbb0hGJ3brSTL6SezWG5LRd7BbJ8noxG79NMnoxG6dJKMnduskGd2yW3+LZHSjBABLlABgiRIALFECgCVKALBECQCW+OfXv3TJbv0tktETu3UjGd2yW7eS0afZrTckoxt260kyumG3niSjv4XdekMyulECgCVKALBECQCWKAHAEiUAWKIEAEt86TckozfYrVvJ6IbdupWMbtmtk2T0Brv1hmT0X5CMvoPdekMyupGMntitP60EAEuUAGCJEgAsUQKAJUoAsEQJAJYoAcASX3qJ3fpp7NatZHRit06S0ZNkdGK3fppk9Gl26yQZ3bJbJ8nolt36tGT00ySjP60EAEuUAGCJEgAsUQKAJUoAsEQJAJb459e/9A3s1qcloxO79SQZvcFufVoy2sRuvSEZnditT0tGT+zWJsnoTysBwBIlAFiiBABLlABgiRIALFECgCW+9BK79SQZ3bBbt+zWLbv1hmR0w249SUZvsFsnyejTktEbktGJ3fppktGJ3XqSjE7s1kky+rQSACxRAoAlSgCwRAkAligBwBIlAFiiBABLfOk32K2TZPTEbp0ko1vJ6CexW29IRk/s1o1k9CQZnditNySjN9itk2R0Kxmd2K1byegNduskGZ3YrVvJ6EYJAJYoAcASJQBYogQAS5QAYIkSACzxz69/6RvYrRvJ6IndupGMvoPd+rRkdMtunSSjE7v10ySjG3brSTI6sVs/TTLaogQAS5QAYIkSACxRAoAlSgCwRAkAlvjn17+E/5fd+rRkdMtunSSjE7v1JBl9mt06SUa37NZJMrplt24kozfYrTckoyd26yQZ3SgBwBIlAFiiBABLlABgiRIALFECgCVKALDEl36D3fpbJKNbyejT7NaTZHRit95gt06S0YndepKMTuzWT5OMTuzWLbt1kozekIxO7NaTZPSnlQBgiRIALFECgCVKALBECQCWKAHAEl96STL6aezWG+zWSTL6DnbrRjJ6Yrdu2K2TZPTEbp0ko0+zW0+S0RuS0afZrZNk9MRunSSjGyUAWKIEAEuUAGCJEgAsUQKAJUoAsMSXvondekMyekMyOrFbJ3brSTI6sVsnyeiJ3bpht54koxt268RuPUlGb7BbN5LRE7t1w279TZLRn1YCgCVKALBECQCWKAHAEiUAWKIEAEuUAGCJL+F/YrdOktGJ3XqD3XqSjE7s1qclo0+zW0+S0aclo1t260YyemK3TpLRLbt1koxulABgiRIALFECgCVKALBECQCWKAHAEl/Ct7JbJ8nolt26kYw2sVtvsFu3ktEbktGJ3TqxW2+wW0+S0Z9WAoAlSgCwRAkAligBwBIlAFiiBABLfOmbJKNNktEbktGJ3bqVjE7s1i279acloyd269OS0S27dZKMTuzWk2T0X1cCgCVKALBECQCWKAHAEiUAWKIEAEuUAGCJL73Ebv1N7NZJMnpDMrplt06S0YndekMyekMy+jS7dctunSSjW8nolt26kYye2K2TZHSjBABLlABgiRIALFECgCVKALBECQCW+OfXvwQAC5QAYIkSACxRAoAlSgCwRAkAligBwBIlAFiiBABLlABgiRIALFECgCVKALBECQCW+D/Ocb83KB/8UwAAAABJRU5ErkJggg==" alt="PromptPay QR" style="width:150px;height:150px;border-radius:10px;margin:0 auto 8px;display:block;border:2px solid #8ecfaa;">
+      <div style="font-size:11px;font-weight:700;color:var(--green);">084-359-2299</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:2px;">โอนแล้วส่งสลิปมาที่<br><strong style="color:var(--text);">Line: @pt789</strong></div>
     </div>
 
     <!-- Unlock code input -->
@@ -2720,7 +2719,28 @@ function initHyd(){
 /* ===== PREMIUM / PAYWALL SYSTEM ===== */
 
 // Valid unlock codes (in production these would be server-validated)
-var VALID_CODES = ['PT789-DEMO','PT789-2024','PT789-PRO1','PT789-PRO2','PT789-TEST'];
+var VALID_CODES = ['PT789-PRO1','PT789-PRO2'];
+var _TS = 'PT789MACHINIST';
+
+// Validate time-based demo code (valid for current hour only)
+function isTimedCodeValid(code){
+  if(!code || !code.startsWith('DEMO-')) return false;
+  var h = Math.floor(Date.now()/3600000); // current hour block
+  // Check current hour + previous hour (grace period)
+  for(var offset=0; offset<=1; offset++){
+    var hx = (h-offset).toString(16).toUpperCase();
+    // Simple hash: sum of char codes of (hx+secret) mod 16^6
+    var raw = hx + _TS;
+    var hash = 0;
+    for(var i=0;i<raw.length;i++){
+      hash = ((hash<<5)-hash) + raw.charCodeAt(i);
+      hash = hash & 0xffffffff;
+    }
+    var hashHex = Math.abs(hash).toString(16).toUpperCase().padStart(6,'0').slice(-6);
+    if(code === 'DEMO-'+hashHex) return true;
+  }
+  return false;
+}
 
 // Premium pages that require unlock
 var PREMIUM_PAGES = ['cnc','bearing','torque','lifting','key','oring','unit','steel','hyd'];
@@ -2755,11 +2775,14 @@ function tryUnlock(){
   var code = (document.getElementById('unlockCodeInput').value||'').trim().toUpperCase();
   var msgEl = document.getElementById('unlockMsg');
   if(!code){ msgEl.style.color='var(--red)'; msgEl.textContent='กรุณาใส่รหัส'; return; }
-  if(VALID_CODES.indexOf(code) >= 0){
+  if(VALID_CODES.indexOf(code) >= 0 || isTimedCodeValid(code)){
     IS_PREMIUM = true;
     try { localStorage.setItem('machinist_unlock_code', code); } catch(e){}
+    var isDemo = isTimedCodeValid(code);
     msgEl.style.color='var(--green)';
-    msgEl.textContent='✅ ปลดล็อคสำเร็จ! ยินดีต้อนรับสู่ Premium';
+    msgEl.textContent = isDemo
+      ? '✅ Demo ปลดล็อคแล้ว! ใช้ได้ถึงสิ้นชั่วโมงนี้'
+      : '✅ ปลดล็อคสำเร็จ! ยินดีต้อนรับสู่ Premium';
     setTimeout(function(){
       closePremiumModal();
       var fromPage = document.getElementById('premiumModal').dataset.fromPage || 'cnc';
